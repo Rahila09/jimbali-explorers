@@ -1,0 +1,6 @@
+{
+  "name": "jimbali-explorers-site",
+  "private": true,
+  "description": "Build tools for the Jimbali Explorers web version",
+  "dependencies": { "@turbowarp/packager": "^3.13.0" }
+}
