@@ -7,18 +7,6 @@ bicycle and a clay-brick home, while Ojuju and Nizer try to stop them.
 This folder is the website. **`index.html` is the whole game** (14 MB, one file). Nothing else is
 needed to play it.
 
-## Put it online with GitHub Pages (about 5 minutes)
-
-1. On github.com click **New repository**, name it (for example `jimbali-explorers`), keep it **Public**, create it.
-2. Click **Add file > Upload files** and drag in everything from this folder
-   (`index.html`, `.nojekyll`, `README.md`, `PRIVACY-NOTE.md`, and the `src`, `tools`, `game` folders and `package.json`).
-   If your browser hides `.nojekyll`, it is not essential; skip it.
-3. Commit the upload.
-4. Go to **Settings > Pages**. Under *Build and deployment* choose **Deploy from a branch**, branch **main**, folder **/ (root)**, then **Save**.
-5. After about a minute the game is at `https://YOUR-USERNAME.github.io/REPOSITORY-NAME/`.
-
-Later you can attach your own address (for example `play.stemachildinitiative.org`) under Settings > Pages > Custom domain.
-
 ## How saving works
 
 * Before the game starts, a **Who is playing?** screen lets a child pick their profile or make a new one
