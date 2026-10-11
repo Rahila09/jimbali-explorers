@@ -1,0 +1,58 @@
+/* Jimbali Explorers - save layer: "Who is playing?" screen (overlay on top of the game) */
+#jw-overlay{position:fixed;inset:0;z-index:99999;overflow:auto;-webkit-overflow-scrolling:touch;
+  background:radial-gradient(120% 90% at 50% 0%,#7a4420 0%,#4a2610 55%,#26130a 100%);
+  color:#f7ead0;font-family:"Poppins","Trebuchet MS","Segoe UI",system-ui,sans-serif;display:flex;justify-content:center}
+#jw-overlay *{box-sizing:border-box}
+#jw-overlay[hidden]{display:none}
+.jw-wrap{width:100%;max-width:760px;padding:22px 16px 40px;display:flex;flex-direction:column;align-items:center}
+.jw-title{font-size:clamp(26px,6vw,40px);font-weight:800;letter-spacing:.5px;margin:6px 0 2px;color:#f6c441;text-align:center;
+  text-shadow:0 3px 0 #2b170d,0 0 18px rgba(246,196,65,.35)}
+.jw-sub{font-size:clamp(16px,3.6vw,22px);margin:0 0 18px;color:#f7ead0;text-align:center}
+.jw-grid{width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.jw-card{display:flex;align-items:center;gap:12px;background:#f4e4c1;color:#2b170d;border:3px solid #2b170d;border-radius:18px;
+  padding:10px 12px;box-shadow:0 5px 0 #1d0f07;cursor:pointer;text-align:left;font:inherit;width:100%;position:relative}
+.jw-card:hover,.jw-card:focus-visible{background:#fff1cf;outline:3px solid #f6c441;outline-offset:2px}
+.jw-card:active{transform:translateY(3px);box-shadow:0 2px 0 #1d0f07}
+.jw-av{flex:0 0 64px;width:64px;height:64px;border-radius:50%;border:3px solid #2b170d;background:#c99a5b center/cover no-repeat;overflow:hidden}
+.jw-av.plus{display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:800;background:#2fa59c;color:#f7ead0;line-height:1}
+.jw-info{flex:1;min-width:0}
+.jw-nick{font-size:20px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jw-meta{font-size:14px;opacity:.8}
+.jw-stars{margin-top:2px;letter-spacing:3px;color:#d98a14;font-size:15px}
+.jw-del{position:absolute;top:6px;right:8px;background:none;border:0;color:#8a3a22;font:inherit;font-size:13px;font-weight:700;
+  cursor:pointer;padding:6px 8px;border-radius:10px}
+.jw-del:hover,.jw-del:focus-visible{background:#f0cdb8;outline:none}
+.jw-card.jw-new{background:#e9f6f3}
+.jw-card.jw-new[disabled]{opacity:.55;cursor:not-allowed}
+.jw-note{margin-top:20px;font-size:13px;opacity:.8;text-align:center;max-width:520px;line-height:1.45}
+.jw-warn{width:100%;background:#c8452f;color:#fff;border:3px solid #2b170d;border-radius:14px;padding:10px 14px;margin:0 0 14px;font-size:14px;font-weight:600}
+.jw-panel{width:100%;max-width:460px;background:#f4e4c1;color:#2b170d;border:3px solid #2b170d;border-radius:20px;padding:20px;
+  box-shadow:0 6px 0 #1d0f07;display:flex;flex-direction:column;gap:12px}
+.jw-panel h2{margin:0;font-size:24px}
+.jw-panel p{margin:0;font-size:15px;line-height:1.45}
+.jw-input{width:100%;font:inherit;font-size:22px;font-weight:700;padding:12px 14px;border-radius:14px;border:3px solid #2b170d;background:#fffaf0;color:#2b170d}
+.jw-input:focus{outline:3px solid #f6c441}
+.jw-err{color:#b02a12;font-weight:700;font-size:15px;min-height:20px}
+.jw-row{display:flex;gap:10px;flex-wrap:wrap}
+.jw-btn{flex:1 1 120px;font:inherit;font-size:19px;font-weight:800;padding:12px 16px;border-radius:16px;border:3px solid #2b170d;
+  cursor:pointer;box-shadow:0 4px 0 #1d0f07;color:#2b170d;background:#f6c441}
+.jw-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #1d0f07}
+.jw-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.jw-btn.teal{background:#2fa59c;color:#fff7e6}
+.jw-btn.red{background:#c8452f;color:#fff7e6}
+.jw-btn.plain{background:#e8d3a6}
+.jw-btn[disabled]{opacity:.6;cursor:wait}
+.jw-bigav{width:110px;height:110px;border-radius:50%;border:4px solid #2b170d;background:#c99a5b center/cover no-repeat;margin:0 auto}
+.jw-center{text-align:center;align-items:center}
+
+/* buttons placed directly in a column panel (welcome screen) must not stretch */
+.jw-panel>.jw-btn{flex:0 0 auto;width:100%}
+.jw-center .jw-btn{min-height:56px}
+/* phone held upright: hint to turn it sideways (hidden automatically in landscape) */
+#jw-rotate{display:none;position:fixed;top:10px;left:10px;right:10px;z-index:99990;pointer-events:none;justify-content:center}
+#jw-rotate .jw-rot-box{pointer-events:auto;display:flex;align-items:center;gap:10px;max-width:460px;background:#f4e4c1;color:#2b170d;
+  border:3px solid #2b170d;border-radius:16px;padding:8px 10px 8px 12px;box-shadow:0 4px 0 #1d0f07;font-family:"Poppins","Trebuchet MS","Segoe UI",system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1.3}
+#jw-rotate svg{flex:0 0 34px;width:34px;height:34px;animation:jw-turn 2.4s ease-in-out infinite}
+#jw-rotate button{flex:0 0 auto;font:inherit;border:0;background:#e8d3a6;border-radius:10px;padding:6px 10px;color:#2b170d;cursor:pointer}
+@keyframes jw-turn{0%,25%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
+@media (orientation:portrait) and (max-width:820px){ #jw-rotate.jw-on{display:flex} }
