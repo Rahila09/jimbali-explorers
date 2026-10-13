@@ -4,24 +4,47 @@ A STEM adventure for African children, built by Stemachildinitiative. Heroes Sif
 Malaika help the guide Zimma rebuild Jimbali with clean water, a safe roof, solar light, a bamboo
 bicycle and a clay-brick home, while Ojuju and Nizer try to stop them.
 
-This folder is the website. **`index.html` is the whole game** (14 MB, one file). Nothing else is
+This folder is the website. **`index.html` is the whole game** (about 13 MB, one file). Nothing else is
 needed to play it.
+
+## Put it online with GitHub Pages (about 5 minutes)
+
+1. On github.com click **New repository**, name it (for example `jimbali-explorers`), keep it **Public**, create it.
+2. Click **Add file > Upload files** and drag in everything from this folder
+   (`index.html`, `stats-config.js`, `.nojekyll`, `README.md`, `PRIVACY-NOTE.md`, `STATS.md`, `COPYRIGHT`, and the `src`, `tools`, `game` folders and `package.json`).
+   If your browser hides `.nojekyll`, it is not essential; skip it.
+3. Commit the upload.
+4. Go to **Settings > Pages**. Under *Build and deployment* choose **Deploy from a branch**, branch **main**, folder **/ (root)**, then **Save**.
+5. After about a minute the game is at `https://YOUR-USERNAME.github.io/REPOSITORY-NAME/`.
+
+Later you can attach your own address (for example `play.stemachildinitiative.org`) under Settings > Pages > Custom domain.
+
+## Copyright notice
+
+The notice "(c) 2026 Jimbali Explorers. Created by Rahila Namah. All rights reserved." appears on the title screen, the Thanks screen and
+the player screen, in `index.html` (a comment and `copyright`/`author` meta tags) and in the `COPYRIGHT` file. To change the name later
+(for example when a company takes over) edit `COPYRIGHT` in `tools/build_site.py` and `COPY_TXT` in the game art script, then rebuild.
 
 ## How saving works
 
 * Before the game starts, a **Who is playing?** screen lets a child pick their profile or make a new one
   (up to 6 per device) by typing a made-up nickname. The hero is chosen in the game as before.
-* Each profile saves its hero, coins, which missions are finished and how many times the whole game was completed (shown as stars).
-* Saving is **automatic and only happens in the village**. If a child closes the page in the middle of a mission,
-  they come back to the village with the coins they had before that mission.
-* Everything is stored **in the browser on that device** (localStorage). Nothing is sent over the internet,
-  and there are no accounts, emails, cookies or analytics.
+* Each profile saves its hero, coins, which missions are finished, what was bought in the market (12 toys, treats and gadgets) and how many times the whole game was completed (shown as stars).
+* Saving is **automatic and only happens on the map**. If a child closes the page in the middle of a mission,
+  they come back to the map with the coins they had before that mission.
+* Everything is stored **in the browser on that device** (localStorage). Profiles are never sent over the internet,
+  and there are no accounts, emails or cookies. Optional anonymous visit counts can be switched on (see `STATS.md`); they are off by default.
 * To switch player, reload the page.
 * Limits: a different phone or browser has different profiles, and clearing the browser's site data erases them.
   In private/incognito windows the game still plays but warns that progress cannot be saved.
 
 Online profiles that follow a child between devices would need a small server and a proper review of how
 children's data is handled. See `PRIVACY-NOTE.md`. They are the natural next step, not part of this version.
+
+## What a mission looks like now
+
+After the supplies card, Zimma reads her intro, then a 3 - 2 - 1 - GO! banner counts down. Nothing can be clicked
+until GO, then the items to click pulse for a moment. The speed-bonus clock starts at GO.
 
 ## Changing the game and rebuilding
 
@@ -34,14 +57,22 @@ node tools/pack.js game/Jimbali-Level1.sb3 build/game.html
 python3 tools/build_site.py build/game.html index.html
 ```
 
-`src/jimbali-save.js` and `src/jimbali-save.css` are the save layer, injected by `build_site.py` just
+`src/jimbali-stats.js` is the optional anonymous counting (see `STATS.md`). `src/jimbali-save.js` and `src/jimbali-save.css` are the save layer, injected by `build_site.py` just
 after the `<body>` tag. The game exposes one hook for it: the Stage message `resume`, which restores the
-village after the saved variables have been put back.
+map after the saved variables have been put back (it also sets the map colour from the number of finished missions).
 
 ## Checked and not checked
 
 Tested in a desktop Chromium browser (new player, resume after reload, two players, delete, odd saved data,
 blocked storage, Zimma's intro and the mission shop after a resume). **Not yet tested on real phones or tablets,
 in Safari/iOS, or on slow mobile data.** Please try it on a couple of cheap Android phones before sharing widely.
-Known things to watch: the first load downloads about 14 MB; sound begins after the first tap; on a phone held
-upright the game is small, so turning the phone sideways is better.
+Known things to watch: the first load downloads about 14 MB and sound begins after the first tap. On a phone held
+upright the game is small, so a "Turn your phone sideways" hint appears at the top (it disappears by itself in landscape).
+
+## On phones
+
+* Landscape (sideways) is best. On Android and iPad a small button in the top-left corner (and the first tap on the
+  "Who is playing?" screen) switches the game to full screen.
+* iPhone Safari does not allow full screen for a web page. Tap **Share > Add to Home Screen** and open Jimbali from the new
+  icon: it then opens full screen without the browser bars. The game shows this tip once.
+* The game remembers each player in the browser (see PRIVACY-NOTE.md); profiles are never sent anywhere.

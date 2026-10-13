@@ -14,7 +14,7 @@
   var HERO_NAMES = { 1: 'Sifa', 2: 'Thando', 3: 'Eshe', 4: 'Malaika' };
   var AVATARS = __AVATARS__;                      /* filled in by tools/build_site.py */
   var DONE_VARS = ['M1Done', 'M2Done', 'M3Done', 'M4Done', 'M5Done'];
-  var OWN_VARS = ['Own1', 'Own2', 'Own3', 'Own4', 'Own5', 'Own6'];   // things bought in the market
+  var OWN_VARS = ['Own1', 'Own2', 'Own3', 'Own4', 'Own5', 'Own6', 'Own7', 'Own8', 'Own9', 'Own10', 'Own11', 'Own12'];   // things bought in the market
 
   /* ---------- storage (falls back to memory if the browser blocks it) ---------- */
   var store = null, canSave = false, memory = { profiles: [] };
@@ -37,7 +37,7 @@
     var done = [];
     for (var i = 0; i < 5; i++) done.push(p.done && p.done[i] ? 1 : 0);
     var own = [];
-    for (var j = 0; j < 6; j++) own.push(p.own && p.own[j] ? 1 : 0);      // old saves have no 'own': all zero
+    for (var j = 0; j < 12; j++) own.push(p.own && p.own[j] ? 1 : 0);      // old saves have no 'own': all zero
     return {
       id: String(p.id || ('p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6))),
       nick: nick,
@@ -45,6 +45,8 @@
       coins: clampInt(p.coins, 0, 99999, 30),
       done: done,
       own: own,
+      tour: p.tour ? 1 : 0,
+      using: (p.using >= 1 && p.using <= 12 && own[p.using - 1]) ? Math.round(p.using) : 0,
       completions: clampInt(p.completions, 0, 999, 0),
       started: p.started ? 1 : 0,
       created: Number(p.created) || Date.now(),
@@ -117,6 +119,7 @@
   var current = null;                 // profile being played
   var noSaveWarned = false;
 
+  var copy = el('div', 'jw-copy', '__COPYRIGHT__'); overlay.appendChild(copy);
   function mount() { if (!document.body) return false; document.body.insertBefore(overlay, document.body.firstChild); return true; }
 
   function head(subtitle) {
@@ -193,7 +196,7 @@
       var nick = input.value.replace(/\s+/g, ' ').trim();
       var msg = checkNick(nick);
       if (msg) { err.textContent = msg; input.focus(); return; }
-      var p = cleanProfile({ nick: nick, hero: 3, coins: 30, done: [0, 0, 0, 0, 0], own: [0, 0, 0, 0, 0, 0], started: 0, created: Date.now() });
+      var p = cleanProfile({ nick: nick, hero: 3, coins: 30, done: [0, 0, 0, 0, 0], own: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], started: 0, created: Date.now() });
       profiles.push(p); saveAll(profiles);
       choose(p);
     });
@@ -268,7 +271,9 @@
         clearInterval(iv);
         setVar('Hero', p.hero); setVar('Coins', p.coins);
         for (var i = 0; i < 5; i++) setVar(DONE_VARS[i], p.done[i]);
-        for (var j = 0; j < 6; j++) setVar(OWN_VARS[j], p.own[j]);
+        for (var j = 0; j < 12; j++) setVar(OWN_VARS[j], p.own[j]);
+        setVar('Using', p.using || 0);
+        setVar('MarketSeen', p.tour ? 1 : 0);
         setVar('Missions', missionsDone(p));
         broadcast('resume');
         setTimeout(function () { restoring = false; }, 800);
@@ -279,7 +284,7 @@
   function snapshot() {
     var done = DONE_VARS.map(function (n) { return getVar(n) ? 1 : 0; });
     var own = OWN_VARS.map(function (n) { return getVar(n) ? 1 : 0; });
-    return { hero: clampInt(getVar('Hero'), 1, 4, 3), coins: clampInt(getVar('Coins'), 0, 99999, 30), done: done, own: own };
+    return { hero: clampInt(getVar('Hero'), 1, 4, 3), coins: clampInt(getVar('Coins'), 0, 99999, 30), done: done, own: own, using: clampInt(getVar('Using'), 0, 12, 0), tour: getVar('MarketSeen') ? 1 : 0 };
   }
   function tick() {
     if (!current || restoring || !runtime()) return;
@@ -289,7 +294,7 @@
       if (sc === 11 && lastScene !== 11) current.completions = Math.min(999, current.completions + 1);
       var json = JSON.stringify([s, current.completions]);
       if (json !== lastJson || lastScene !== sc) {
-        current.hero = s.hero; current.coins = s.coins; current.done = s.done; current.own = s.own; current.started = 1; current.played = Date.now();
+        current.hero = s.hero; current.coins = s.coins; current.done = s.done; current.own = s.own; current.using = s.using; current.tour = s.tour; current.started = 1; current.played = Date.now();
         lastJson = json;
         for (var i = 0; i < profiles.length; i++) if (profiles[i].id === current.id) profiles[i] = current;
         saveAll(profiles);
